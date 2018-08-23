@@ -7,17 +7,20 @@ const products_controller = require('./products_controller');
 const app = express();
 app.use(bodyParser.json());
 
-massive(process.env.CONNECTION_STRING).then(database =>{
+
+massive(process.env.CONNECTION_STRING).then(database => {
     app.set('db', database)
 }).catch(error => {
-    console.log('error',error)
-})
+    console.log('Error with server', error)
+  }
+);
+// app.post('/api/heroes', heroesController.createHero)
 
-app.get('/api/products', products_controller.getAll);
-app.post('/api/prodct', products_controller.create);
+app.post('/api/product', products_controller.create);
 app.get('/api/product/:id', products_controller.getOne);
+app.get('/api/products', products_controller.getAll);
 app.put('/api/product/:id', products_controller.update);
-app.delete('/api/products/:id',products_controller.delete);
+app.delete('/api/product/:id', products_controller.delete);
 
 
 const port = process.env.PORT || 3000;
